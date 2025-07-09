@@ -1,22 +1,20 @@
-# main.py
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import Union
+from typing import Optional
 
 app = FastAPI()
 
 class Item(BaseModel):
     name: str
-    description: Union[str] = None
     price: float
-    is_offer: Union[bool, None] = None
+    is_offer: Optional[bool] = None  # Changed to Optional for consistency
 
 @app.get("/")
 async def read_root():
-    return {"message": "Welcome to FastAPI"}
+    return {"message": "Welcome to my FastAPI"}
 
 @app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str = None):
+async def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
 @app.put("/items/{item_id}")
